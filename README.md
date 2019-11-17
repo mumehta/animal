@@ -12,6 +12,7 @@
 * git clone https://github.com/mumehta/animal.git
 * cd animal
 * virtualenv -p <path_to_python3.6> venv
+* source venv/bin/activate
 * pip install -r requirements.txt
   
 ## Run Application ##
