@@ -16,6 +16,10 @@ except ImportError:
     flags = None
 
 
+class UnsupportedFileFormat(Exception):
+    pass
+
+
 class SaveCSV:
 
     def save_data(self, data):
@@ -28,6 +32,7 @@ class SaveCSV:
                 writer.writerow(data)
         except IOError:
             print("I/O error")
+        return csv_file
 
 
 class SaveJSON:
@@ -39,6 +44,7 @@ class SaveJSON:
                 json.dump(data, jsonfile)
         except IOError:
             print("I/O error")
+        return json_file
 
 
 SAVE_FORMATS = {
@@ -48,17 +54,18 @@ SAVE_FORMATS = {
 
 
 def save_data(key, value):
-    SAVE_FORMATS[key].save_data(value)
-    SAVE_FORMATS[key].save_data(value)
+    if key in ['csv', 'json']:
+        SAVE_FORMATS[key].save_data(value)
+        SAVE_FORMATS[key].save_data(value)
+    else:
+        raise UnsupportedFileFormat('{0} format not yet supported.'.format(key))
 
 
 def supported_formats():
     return list(SAVE_FORMATS.keys())
 
 
-def read_json_with_panda():
-    url = 'https://api.github.com/users/mumehta/repos'
-    # df = pd.read_json('client.json', orient='columns')
+def read_json_with_panda(url):
     df = pd.read_json(url, orient='columns')
     return df.head(10)
 
@@ -67,5 +74,5 @@ if __name__ == '__main__':
     print('Format(s) supported: ', supported_formats())
     save_data('csv', flags.__dict__)
     save_data('json', flags.__dict__)
-    print(read_json_with_panda())
+    print(read_json_with_panda(url='https://api.github.com/users/mumehta/repos'))
 
