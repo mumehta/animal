@@ -24,3 +24,5 @@
 ## Under the hood - Ci ##
 The project is setup on github and makes use of github workflow. When you commit and push to remote repo, build kicks in and runs build and unit tests - pytest. 
 Workflow: .github/workflows/animalapp.yml
+
+https://github.com/mumehta/animal/actions
